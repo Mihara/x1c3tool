@@ -115,7 +115,7 @@ Whether the device will digipeat is described by the checkboxes in Section **6**
 
 The `delay` field introduces a delay before digipeating a heard packet.
 
-The six-digit code in Section **7** is related to enabling and disabling digipeating remotely. According to the official manual, the device listens for "a beacon" containing a message in the form of "<code><command>" where "command" is one of `A0`,`B0`,`A1`,`B1` and `R0`.
+The six-digit code in Section **7** is related to enabling and disabling digipeating remotely. According to the official manual, the device listens for "a beacon" containing a message in the form of "\<code\>\<command\>" where "command" is one of `A0`,`B0`,`A1`,`B1` and `R0`.
 
 * `A` commands control the alias marked `DIGI 1` while `B` commands control `DIGI 2`
 * `1` turns the alias on, while `0` turns it off.
