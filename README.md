@@ -6,7 +6,7 @@ The device is a rather neat Bluetooth SPP packet [TNC](https://en.wikipedia.org/
 
 However, the documentation is horrid and scarce. The stock software works only on Windows, due to being written in Visual Basic of all things.
 
-Unfortunately, it is beyond me to rewrite the whole thing at the moment, *(I did write an X1C3 manual, posted elsewhere.)* so I did the next best thing: An utility to save and load the device's configuration, so that I can swap different profiles in the field without access to a Windows machine.
+Unfortunately, it is beyond me to rewrite the whole thing at the moment, *(I did write an [X1C3 manual](manual/manual.md), but that's the limit of what I can spare the time for at the moment)* so I did the next best thing: An utility to save and load the device's configuration, so that I can swap different profiles in the field without access to a Windows machine.
 
 ## Installation
 
@@ -16,7 +16,7 @@ Or you could compile from source yourself, see below.
 
 ## Usage
 
-Really rather obvious. Attach the device by USB and invoke the magic words:
+Really rather obvious. Attach the device by USB and invoke the magic words with the right serial port device:
 
 ```
 x1c3tool /dev/ttyUSB0 --download my_home_config
@@ -30,21 +30,19 @@ x1c3tool.exe COM1 --download my_home_config
 x1c3tool.exe COM1 --upload my_portable_config
 ```
 
-Some programs have a different opinion about this word usage, hence the clarification:
-
-Uploading, here, means 'to device from file,' downloading means 'from device to file.'
+Some programs have a different opinion about this word usage, hence the clarification: Uploading, here, means 'to device from file,' downloading means 'from device to file.'
 
 ## Technical details
 
-X1C3 presents a serial port on the USB interface, and responds to a few scantily documented `AT+` commands in addition to presenting a KISS TNC interface in parallel with those, at least by default.
+X1C3 presents a serial port on the USB interface, and responds to a few scantily documented `AT+` commands.
 
-Further description should be the subject of a user manual, but I've got to share my pain: While the extant documentation implies that you are supposed to set options with those `AT+` commands, most of the ones it lists don't appear to work, and the stock software does something completely different.
+Further description is [the subject of a user manual](manual/manual.md), but I've got to share my pain: While the extant documentation implies that you are supposed to set options with those `AT+` commands, hardly any of the ones it lists work, and the stock software does something completely different.
 
-Beyond the commands that produce an immediate action (like `AT+TX=ON` which effectively pushes the TX button in the stock program) it invokes only two commands -- one which dumps the EEPROM of the device as bytes into the serial port, and one which reads this EEPROM from the port.
+Beyond the commands that produce an immediate action, it invokes only two commands -- one which dumps the EEPROM of the device as bytes into the serial port, and one which reads this EEPROM from the port.
 
-The stock software then works with the buffer itself, stuffing it out into the form that lets you edit it. The software -- and the layout of the EEPROM -- is identical for multiple very different devices by the same manufacturer *(notably, X1C5)* and half the toggles don't even do anything because a given device might not have these features at all. Just in case, this program specifically avoids messing with devices I do not actually own and can test against.
+The stock software then works with the buffer itself, stuffing it out into the form that lets you edit it. The software -- and the layout of the EEPROM -- is identical for multiple very different devices by the same manufacturer *(notably, X1C5)* and half the toggles don't even do anything because a given device might not have these features at all. Just in case, my program specifically avoids messing with devices I do not actually own, because I can't test against them.
 
-Naturally, this makes writing a program that flips a specific toggle in the stock software tricky and questionable. On the other hand, quickly switching between multiple "profiles" is easy, and this is what this program does.
+Naturally, this makes writing a program that flips a specific toggle in the stock software tricky. On the other hand, quickly switching between multiple "profiles" is easy, and this is what this program does.
 
 ## Compilation
 
