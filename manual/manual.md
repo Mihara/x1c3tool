@@ -12,7 +12,7 @@ You can acquire the [stock software](http://venus-itech.com/download/APRS_51Seri
 
 That's where you get the stock manual, in case you still need it.
 
-This manual only covers the functionality found X1C3 itself. (And even then, mostly the features I could verify as working and properly document.) Other devices that include it as a subset but also do other things are:
+This manual only covers the functionality found in X1C3 itself. (And even then, mostly the features I could verify as working and properly document.) Other related devices that include it as a subset but also do other things are:
 
 * X1C5 self-contained tracker/Bluetooth TNC/iGate with built-in radio.
 * Lanchonlh HG-UV68 handheld radio with APRS.
@@ -91,7 +91,7 @@ Section **3** primarily deals with beaconing rules:
 
   Yes, I had to go fish for the manuals to the other related devices to find that important tidbit.
 * `Manual` checkbox makes the device send out a beacon once the PTT is *released* on the microphone that is plugged into the device itself, i.e. immediately once you finish talking. Being an external device, X1C3 can't change the frequency to do it, so this is generally only suitable for using in situations where you have a repeater that handles reception of APRS packets on its own frequency, i.e. [what MIC-E data format was originally intended for][MIC-E]. However, you might want to rig up a button just for the convenience of being able to beacon on command without doing something more complicated.
-* `Time` sets the minimum time between packets. `Smart` plus a `Time` of, say, 300 seconds is reasonable. `Time` on its own will beacon once every given number of seconds.
+* `Time` sets the maximum time between packets. `Smart` plus a `Time` of, say, 300 seconds is reasonable. `Time` on its own will beacon once every given number of seconds.
 * `Queue` is pretty bizarre, because this beaconing frequency algorithm doesn't intersect with any other one. If you select this, the device will beacon once every minute, at the specified number of seconds plus one, based on the GPS clock. I'm really at a loss why did anyone want this. This will coexist with `Time` mode.
 
 APRS packet settings for beaconing are also in Section **3**:
