@@ -15,15 +15,15 @@ That's where you get the stock manual, in case you still need it.
 This manual only covers the functionality found in X1C3 itself. (And even then, mostly the features I could verify as working and properly document.) Other related devices that include it as a subset but also do other things are:
 
 * X1C5 self-contained tracker/Bluetooth TNC/iGate with built-in radio.
-* Lanchonlh HG-UV68 handheld radio with APRS.
+* Lanchonlh HG-UV98 handheld radio with APRS.
 * 51TNC2, an Ethernet-connected TNC/iGate device.
 * 51-WG5 / 51-WG6 / 51-WG7 APRS add-on for Yaesu radios.
 
-Since I don't own any of them I can't say how much is actually different.
+Since I don't own any of them I can't say how much is actually different, but all of them use the same (or very similar) configuration software and quote the same barely comprehensible English lines in their manuals. All are derived from the work credited to BH4TDV, whether the said amateur is involved in their manufacture directly or not.
 
 ## Hardware
 
-There are only two buttons -- marked `POWER` and `BT`. `BT` button enables and disables Bluetooth. There are few indications that the device is working beyond the Bluetooth light, which is constantly flashing when Bluetooth is not connected and holding when it is, and the GPS light, which is blue when GPS has a fix. If you turned Bluetooth off while GPS has no clear view of the sky, you might not notice it's actually powered on at all, and it will eventually run the battery down, so beware.
+There are only two buttons -- marked `POWER` and `BT`. `BT` button enables and disables Bluetooth. There are few indications that the device is working beyond the Bluetooth light, which is constantly flashing when Bluetooth is not connected and holding when it is, and the GPS light, which is blue when GPS has a fix. If you turned Bluetooth off, you might not notice it's actually powered on at all, and it will eventually run the battery down, so beware.
 
 On power on, the device flashes the red TX light several times, indicating the level of battery charge:
 
@@ -92,14 +92,16 @@ Section **3** primarily deals with beaconing rules:
   Yes, I had to go fish for the manuals to the other related devices to find that important tidbit.
 * `Manual` checkbox makes the device send out a beacon once the PTT is *released* on the microphone that is plugged into the device itself, i.e. immediately once you finish talking. Being an external device, X1C3 can't change the frequency to do it, so this is generally only suitable for using in situations where you have a repeater that handles reception of APRS packets on its own frequency, i.e. [what MIC-E data format was originally intended for][MIC-E]. However, you might want to rig up a button just for the convenience of being able to beacon on command without doing something more complicated.
 * `Time` sets the maximum time between packets. `Smart` plus a `Time` of, say, 300 seconds is reasonable. `Time` on its own will beacon once every given number of seconds.
-* `Queue` is pretty bizarre, because this beaconing frequency algorithm doesn't intersect with any other one. If you select this, the device will beacon once every minute, at the specified number of seconds plus one, based on the GPS clock. I'm really at a loss why did anyone want this. This will coexist with `Time` mode.
+* `Queue` is pretty bizarre, because this beaconing frequency algorithm works in parallel with every other one. If you select this, the device will beacon once every minute, at the specified number of seconds plus one, based on the GPS clock. I'm really at a loss why did anyone want this, since on the public APRS frequency you are strongly advised against doing anything of the sort.
 
 APRS packet settings for beaconing are also in Section **3**:
 
 * `Path1` and `Path2` describe the digipeater path applied to the packets the device generates. Which APRS digipeater path to use is [a more involved discussion than this manual can accommodate](http://www.wa8lmf.net/DigiPaths/index.htm), but the reasonable default is `WIDE1`, `1`, `WIDE2`, `1`, which will translate to `WIDE1-1,WIDE2-1` and means "ask the local area digipeaters to repeat it once, and ask the wide area digipeaters to repeat it once too." Depending on digipeater activity in your area, you might want something else. Setting a faux-SSID dropdown to 0 disables the corresponding path component. Unfortunately, this means you can't have a path component without a SSID at all, though you can, for example, have just `WIDE2-1` as your digipeater path.
 * `Type` is the APRS data type identifier, described in the [protocol specification][APRS] on page 17. The factory default is `!`, i.e. that the beacon is a position without timestamp, which additionally indicates the device has no messaging capability. I don't know if anything seriously pays attention to the APRS data type in this day and age, but if you use the device as a tracker-plus-TNC, you might want to put `=` in that field. This will be ignored if you use `MIC-E`, as in that case, the data type identifier field is repurposed.
 * `MIC-E` checkbox enables [MIC-E compression][MIC-E], which packages the positioning data into otherwise less-relevant fields in the packet data structure and shortens the packet considerably. The nearby dropdown allows you to select a MIC-E status. If you don't enable this, [APRSDroid](https://aprsdroid.org/) in particular will display course, speed and altitude as part of the message itself, *(with no space between the start of the text message and the end of the speed/course/altitude data, too)* but I think it's actually APRSDroid parsing them wrong here. On the other hand, MIC-E compression is reported to be responsible for [data corruption in certain parts of the APRS network using archaic software](https://owenduffy.net/blog/?p=2326), so depending on where you are, you might want this off.
-* `Icon 1` and `Icon 2` allow you to select which APRS icon your beacon will be represented with. You can find the description of what they mean on page 90 of the [APRS protocol spec][APRS]. A more human-readable description can be found in [this APRS symbols list](https://www.aprsdirect.com/symbol/list) -- just remember that in the X1C3 software, the Code column of that table is on the right, and the Table ID column is on the left -- so `/`, `[` means an icon of a human. `Icon 1` pair of fields is the default beacon icon. The `Icon 2` pair, with an accompanying field of a number of seconds, will be sent if the device detects you were stationary for that number of seconds or longer -- defaulting to 180. By default, the second icon is a "parking" sign. If you don't want this feature, just set identical icons.
+* `Icon 1` and `Icon 2` allow you to select which APRS icon your beacon will be represented with. You can find the description of what they mean on page 90 of the [APRS protocol spec][APRS]. A more human-readable description can be found in [this APRS symbols list](https://www.aprsdirect.com/symbol/list) -- just remember that in the X1C3 software, the Code column of that table is on the right, and the Table ID column is on the left -- so `/`, `[` means an icon of a human.
+
+  `Icon 1` pair of fields is the default beacon icon. The `Icon 2` pair, with an accompanying field of a number of seconds, will be sent if the device detects you were stationary for that number of seconds or longer -- defaulting to 180. By default, the second icon is a "parking" sign. If you don't want this feature, just set identical icons. Be aware that when using GPS power saving (described below) it's likely that positioning precision will suffer, and your device will be considered always moving, so you'll never see the second icon.
 
 Other important settings in Section **3**:
 
@@ -108,7 +110,7 @@ Other important settings in Section **3**:
 
 Other *unimportant* settings in Section **3**:
 
-* `CH`: Do not get confused by this dropdown. X1C3, apparently, shares much of its hardware and software with the APRS parts of **Lanchonlh HG-UV68** handheld radio, in which they control which of the two VFOs beacon packets will go out on. Being an external device connecting over a microphone plug, X1C3 cannot select between VFOs, so this setting has no effect.
+* `CH`: Do not get confused by this dropdown. X1C3shares much of its hardware and software with the APRS parts of **Lanchonlh HG-UV98** handheld radio, in which this dropdown controls which of the two VFOs beacon packets will go out on. Being an external device connecting over a microphone plug, X1C3 cannot select between VFOs, so this setting has no effect.
 
 Section **5** contains the fields describing extra information that goes into the message part of the beacon, as well as some tangentially related functions.
 
@@ -132,7 +134,7 @@ The six-digit code in Section **7** is related to enabling and disabling digipea
 
 * `A` commands control the alias marked `DIGI 1` while `B` commands control `DIGI 2`
 * `1` turns the alias on, while `0` turns it off.
-* `R0` command resets the state to the one stored in the EEPROM.
+* `R0` command resets the state to the one stored in the EEPROM
 
 Further experimentation is required to ascertain whether this remote control does, in fact, work. I have not managed to invoke it by sending messages into the device from the BT side, so it might only work over the air, if at all.
 
@@ -152,10 +154,10 @@ The settings that control Bluetooth behavior are in Section **10**:
   * `KISS Hex` presents a proper KISS TNC interface.
   * `UI` presents a more human-readable interface, where received and transmitted packet contents are printed one per line, and occasional informative messages appear. This is the setting you want while you're tuning your radio and otherwise fiddling with the device. What's very strange is that APRSDroid actually keeps working fine when the device is in this mode, and I'm not entirely clear why -- presumably, the device recognizes KISS traffic when it receives it, but why does APRSDroid accept the one-packet-per-line messages, when it's configured for a KISS TNC?
   * `GPWPL` replaces output of transmitted beacons with NMEA "Waypoint Location" sentences. Received beacons seem not to appear at all. Presumably, you can use this in conjunction with some kind of navigator device for rendering the map, but the specific use case eludes me, since incoming APRS packets aren't getting parsed into GPWPL sentences as far as I can tell.
-  * `KISS Asc` prints -- and presumably, expects -- incoming packets as if they were KISS frames, but translates them into hex. That is, instead of binary data it sends `C0 ...`. The use case eludes me and nothing else seems to work with this format.
+  * `KISS Asc` prints -- and presumably, expects -- incoming packets as if they were KISS frames, but translates them into a hexadecimal ASCII representation. That is, instead of sending 0xC0, it sends `C0`, etc. The use case eludes me and nothing else seems to work with this format.
 * `Out2` is the secondary stream behavior -- rather than present a separate stream as the manual wants to imply, (where would it even do that?) it appears to intermix extra data into the same one.
   * `GPS` dumps raw GPS NMEA output the way it is received from the GPS into the stream. The intention, presumably, is to have an option to take over the beaconing functions of the device from the PC side without having an extra GPS in the system, though it would require some creative fiddling with the serial port to do.
-  * `Rotator` is the most obscure function of the device. According to the original manual, the device is capable of controlling a Yaesu antenna rotator through the GS-232B interface. It certainly *tries* to -- in the `UI` mode, you can occasionally see output pertaining to that function. However, it's entirely unclear to me if this even works, and current versions of the setup tool are missing a bunch of buttons related to this function, never mind that I have no idea how would the data get to the rotator itself.
+  * `Rotator` is the most obscure function of the device. According to the original manual, the device is capable of controlling a Yaesu antenna rotator through the GS-232B interface to point at the beacons as they are heard. It certainly *tries* to -- in the `UI` mode, you can occasionally see output pertaining to that function, describing calculations of the relative positions resulting in an antenna azimuth. However, it's entirely unclear to me how would the data get to the rotator itself, or why this is done for directly received packets but not digipeated packets. Current versions of the setup tool are missing a bunch of buttons related to this function, so this might be specific only to certain versions of the device.
 
 ### Radio adjustment
 
