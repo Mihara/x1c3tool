@@ -110,7 +110,7 @@ Other important settings in Section **3**:
 
 Other *unimportant* settings in Section **3**:
 
-* `CH`: Do not get confused by this dropdown. X1C3shares much of its hardware and software with the APRS parts of **Lanchonlh HG-UV98** handheld radio, in which this dropdown controls which of the two VFOs beacon packets will go out on. Being an external device connecting over a microphone plug, X1C3 cannot select between VFOs, so this setting has no effect.
+* `CH`: Do not get confused by this dropdown. X1C3 shares much of its hardware and software with the APRS parts of **Lanchonlh HG-UV98** handheld radio, in which this dropdown controls which of the two VFOs beacon packets will go out on. Being an external device connecting over a microphone plug, X1C3 cannot select between VFOs, so this setting has no effect.
 
 Section **5** contains the fields describing extra information that goes into the message part of the beacon, as well as some tangentially related functions.
 
