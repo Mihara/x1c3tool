@@ -46,7 +46,7 @@ task release, "Produce a release build for all platforms.":
     foreignDep "upx"
   else:
     echo("Warning: Dependencies might be missing, you're on your own. ",
-         "Check ballpark.nimble for details.")
+         "Check x1c3tool.nimble for details.")
 
     # I don't know the right invocation for foreignDep for anything
     # except Ubuntu, but at least I can tell if the executables
