@@ -36,7 +36,7 @@ On power on, the device flashes the red TX light several times, indicating the l
 
 The label `GPS` is positioned immediately above the GPS module's antenna, so presumably you want that side looking up into the sky if possible.
 
-The device uses a 103450 LiPo battery, which is easy enough to replace if needed. The battery is charged through the micro-USB plug, and the `CHG` light goes out once it is fully charged.
+The device uses a 103450 LiPo battery, which is easy enough to replace if needed. The battery is charged through the micro-USB plug, and the `CHG` light goes out once it is fully charged. If you disconnect the battery and power it through the micro-USB plug, the device functions just fine, so you can keep it powered from USB in perpetuity or excise the battery altogether.
 
 The radio is connected with a supplied cable for K1 (Kenwood) microphone socket. Since the device properly handles PTT, there's no need for VOX. The pinout of the RJ11 socket it plugs into on the device's side is like so, with the plug's hook away from you and pins numbered left to right:
 
