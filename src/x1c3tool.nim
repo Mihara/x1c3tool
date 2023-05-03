@@ -55,6 +55,8 @@ port.write("AT+VER=?" & CRLF)
 
 # Expected version string is like:
 # Ver: X1C3_2020_20201113 BH4TDV | ID: F628C58709A21E | V: 4.6 V|  25.8 C| 996.3 hpa
+# It was reported that an older version writes the version number somewhat differently:
+# Ver: 51X1C3_20180927A BH4TDV | CPU ID: F628465A00179D | Voltage: 4.6 V|
 
 let
   response = port.readAll()
@@ -68,7 +70,7 @@ doAssert(
   "This device doesn't look like a X1C3."
 )
 
-doAssert(version.startswith("X1C3"), "This device is definitely not an X1C3.")
+doAssert(version.startswith("X1C3") or version.startswith("51X1C3"), "This device is definitely not an X1C3.")
 
 echo("X1C3 firmware version: ", version)
 

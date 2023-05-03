@@ -1,6 +1,6 @@
 # Package
 
-version       = "1.0.0"
+version       = "1.0.1"
 author        = "Eugene Medvedev (R2AZE)"
 description   = "A configuration loader and saver for X1C3 APRS Tracker."
 license       = "MIT"
