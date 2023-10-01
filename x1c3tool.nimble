@@ -1,6 +1,6 @@
 # Package
 
-version       = "1.0.1"
+version       = "1.1.0"
 author        = "Eugene Medvedev (R2AZE)"
 description   = "A configuration loader and saver for X1C3 APRS Tracker."
 license       = "MIT"
@@ -10,8 +10,8 @@ binDir        = "build"
 
 # Dependencies
 
-requires "nim >= 1.6.0"
-requires "serial >= 1.1.5"
+requires "nim >= 2.0.0"
+requires "https://github.com/euantorano/serial.nim#e794dd3"
 requires "commandant >= 0.15.0"
 
 # We're already requiring nim >= 1.6.0, so we can assume that 'distros' is available.

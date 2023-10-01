@@ -30,6 +30,14 @@ commandline:
   exitoption("help", "h", helpMessage())
   errormsg("--help for help.")
 
+proc fullFlush(port: SerialStream) =
+  # Flush the port and clear the read buffer too.
+  port.flush()
+  try:
+    discard port.readAll()
+  except TimeoutError:
+    discard
+
 var
   port: SerialStream
 
@@ -45,10 +53,7 @@ except InvalidSerialPortError:
   quit("Could not open serial port " & portName, QuitFailure)
 
 # Flush the port first.
-try:
-  discard port.readAll()
-except TimeoutError:
-  discard
+port.fullFlush()
 
 # Get the firmware version number.
 port.write("AT+VER=?" & CRLF)
@@ -114,6 +119,11 @@ elif len(uploadFrom) != 0:
 
   port.write("AT+SET=WRITE")
   port.write(configBuffer)
+
+  # Now, on platforms other than Windows, that would be all it takes,
+  # but on Windows, streams seem to behave differently,
+  # and without this, it won't finish writing to the port.
+  port.fullFlush()
 
 else:
   echo("Nothing to upload or download.")
